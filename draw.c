@@ -53,7 +53,11 @@ Returns:
 Go through points 2 at a time and call draw_line to add that line
 to the screen
 ====================*/
-void draw_lines(struct matrix * points, screen s, color c) {
+void draw_lines(struct matrix* points, screen s, color c) {
+	int i;
+	for (i = 0; i < points->lastcol; i += 2) {
+		draw_line(points->m[0][i], points->m[1][i], points->m[0][i+1], points->m[1][i+1], s, c);
+	}
 }
 
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
