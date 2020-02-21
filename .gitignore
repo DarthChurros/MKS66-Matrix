@@ -1,3 +1,8 @@
+# Image Files
+*.ppm
+*.jpg
+*.png
+
 # Prerequisites
 *.d
 
