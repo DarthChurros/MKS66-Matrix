@@ -21,6 +21,15 @@ print the matrix such that it looks like
 the template in the top comment
 */
 void print_matrix(struct matrix* m) {
+  int i;
+  int j;
+
+  for (i = 0; i < m->rows; i++) {
+    for (j = 0; j < m->lastcol; j++) {
+      printf("%f  ", m->m[i][j]);
+    }
+    printf("\n");
+  }
 }
 
 /*-------------- void ident() --------------
