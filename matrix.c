@@ -55,6 +55,25 @@ multiply a by b, modifying b to be the product
 a*b -> b
 */
 void matrix_mult(struct matrix* a, struct matrix* b) {
+  if (a->cols != b->rows) {
+    printf("Invalid sizes!\n");
+    return;
+  }
+
+  struct matrix* c = new_matrix(a->rows, b->cols);
+
+  int i;
+  for (i = 0; i < c->rows; i++) {
+    int j;
+    for (j = 0; j < c->cols; j++) {
+      int k;
+      for (k = 0; k < a->cols; k++) {
+        c->m[i][j] += a->m[i][k] * b->m[k][j];
+      }
+    }
+  }
+
+  copy_matrix(c, b);
 }
 
 
