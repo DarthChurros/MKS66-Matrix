@@ -40,5 +40,24 @@ int main() {
   matrix_mult(transform, edges);
   print_matrix(edges);
 
+  // IMAGE GENERATION CODE GOES HERE
+
+  ident(transform);
+  edges->lastcol = 0;
+
+  screen s;
+  clear_screen(s);
+  color c = {255, 0, 0};
+
+  add_edge(edges, 100, 100, 0, 100, 400, 0);
+  add_edge(edges, 100, 400, 0, 400, 400, 0);
+  add_edge(edges, 400, 400, 0, 400, 100, 0);
+  add_edge(edges, 400, 100, 0, 100, 100, 0);
+
+  printf("\n\n\n");
+  print_matrix(edges);
+
+  draw_lines(edges, s, c);
+  display(s);
 
 }

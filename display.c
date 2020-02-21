@@ -38,7 +38,7 @@ Inputs:   screen s
 Returns:
 Sets every color in screen s to black
 ====================*/
-void clear_screen(screen s ) {
+void clear_screen(screen s) {
 
   int x, y;
   color c;

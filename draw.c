@@ -75,6 +75,16 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
   int b = x0 - x1;
 
   if (!b) { //vertical
+		if (y0 > y1) {
+			x0 = x0 ^ x1;
+			x1 = x0 ^ x1;
+			x0 = x0 ^ x1;
+
+			y0 = y0 ^ y1;
+			y1 = y0 ^ y1;
+			y0 = y0 ^ y1;
+		}
+
     int y;
     for (y = y0; y <= y1; y++) plot(s, c, x0, y);
     return;
