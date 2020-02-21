@@ -13,4 +13,8 @@ int main() {
 
   print_matrix(edges);
 
+  printf("\nConverting to identity matrix...\n");
+  ident(edges);
+  print_matrix(edges);
+
 }
