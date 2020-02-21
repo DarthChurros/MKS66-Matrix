@@ -17,4 +17,8 @@ int main() {
   ident(edges);
   print_matrix(edges);
 
+  printf("\nAdding point...\n");
+  add_point(edges, 4, 2, 7);
+  print_matrix(edges);
+
 }
