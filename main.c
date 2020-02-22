@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #include "ml6.h"
 #include "display.h"
@@ -40,24 +41,89 @@ int main() {
   matrix_mult(transform, edges);
   print_matrix(edges);
 
-  // IMAGE GENERATION CODE GOES HERE
+  // IMAGE GENERATION CODE BEGINS HERE
 
   ident(transform);
   edges->lastcol = 0;
+  transform->lastcol = 0;
 
   screen s;
   clear_screen(s);
-  color c = {255, 0, 0};
+  color c = {MAX_COLOR, 0, 0};
 
-  add_edge(edges, 100, 100, 0, 100, 400, 0);
-  add_edge(edges, 100, 400, 0, 400, 400, 0);
-  add_edge(edges, 400, 400, 0, 400, 100, 0);
-  add_edge(edges, 400, 100, 0, 100, 100, 0);
+  add_edge(edges, XRES/2-50, YRES/2-sqrt(7500), 0, XRES/2-50, YRES/2+sqrt(7500), 0);
+  add_edge(edges, XRES/2-sqrt(12500), YRES/2+100, 0, XRES/2+sqrt(12500), YRES/2+100, 0);
+  add_edge(edges, XRES/2+150, YRES/2-sqrt(17500), 0, XRES/2+150, YRES/2+sqrt(17500), 0);
+  add_edge(edges, XRES/2-sqrt(22500), YRES/2-200, 0, XRES/2+sqrt(22500), YRES/2-200, 0);
+  add_edge(edges, XRES/2-250, YRES/2-sqrt(27500), 0, XRES/2-250, YRES/2+sqrt(27500), 0);
+  add_edge(edges, XRES/2-sqrt(32500), YRES/2+300, 0, XRES/2+sqrt(32500), YRES/2+300, 0);
+  add_edge(edges, XRES/2+350, YRES/2-sqrt(37500), 0, XRES/2+350, YRES/2+sqrt(37500), 0);
 
-  printf("\n\n\n");
-  print_matrix(edges);
+  // print_matrix(edges);
 
-  draw_lines(edges, s, c);
-  display(s);
+  ident(transform);
+  transform->m[0][0] = cos(M_PI/51);
+  transform->m[0][1] = -sin(M_PI/51);
+  transform->m[1][0] = sin(M_PI/51);
+  transform->m[1][1] = cos(M_PI/51);
+  transform->m[0][3] = -XRES/2*cos(M_PI/51)+YRES/2*sin(M_PI/51)+XRES/2;
+  transform->m[1][3] = -XRES/2*sin(M_PI/51)+XRES/2*-cos(M_PI/51)+YRES/2;
 
+  int phase = 0;
+
+  while (phase < 6) {
+    draw_lines(edges, s, c);
+    switch (phase) {
+      case 0:
+        c.green += 15;
+        if (c.green == MAX_COLOR) phase++;
+        break;
+      case 1:
+        c.red -= 15;
+        if (!c.red) phase++;
+        break;
+      case 2:
+        c.blue += 15;
+        if (c.blue == MAX_COLOR) phase++;
+        break;
+      case 3:
+        c.green -= 15;
+        if (!c.green) phase++;
+        break;
+      case 4:
+        c.red += 15;
+        if (c.red == MAX_COLOR) phase++;
+        break;
+      case 5:
+        c.blue -= 15;
+        if (!c.blue) phase++;
+        break;
+    }
+    matrix_mult(transform, edges);
+  }
+
+  save_ppm_ascii(s, "image.ppm");
+
+  return 0;
 }
+/*
+cos  -sin  0  0
+sin  cos   0  0
+0    0     1  0
+0    0     0  1
+
+1    0     0  x
+0    1     0  y
+0    0     1  0
+0    0     0  1
+
+cos  -sin  0  -xcos+ysin
+sin  cos   0  -xsin-ycos
+0    0     1  0
+0    0     0  1
+
+cos  -sin  0  -xcos+ysin+x
+sin  cos   0  -xsin-ycos+y
+0    0     1  0
+0    0     0  1
+*/
